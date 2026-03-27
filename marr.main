@@ -74,7 +74,7 @@ local RunService       = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Stats            = game:GetService("Stats")
 
-local KEY  = "plexxz"
+local KEY  = "keymarki"
 local LP   = Players.LocalPlayer
 local NAME = "MarkyXXX.Inc"
 local VER  = "v2.0"
@@ -363,7 +363,7 @@ local function mkSCard(par,title,icon,vc,order)
     return vL,bF end
 
 -- ══════════════════════════════════════
---  MAINTENANCE BANNER (hanya untuk Trade)
+--  BANNER KHUSUS TRADE (static 93%)
 -- ══════════════════════════════════════
 local function mkTradeBanner(par,lo)
     local f=F(par,K.b2,UDim2.new(0,0,0,0),UDim2.new(1,0,0,72),1)
@@ -376,9 +376,10 @@ local function mkTradeBanner(par,lo)
     L(f,"🔴  FITUR SEDANG DALAM UPDATE",UDim2.new(0,52,0,8),UDim2.new(1,-60,0,18),Enum.Font.GothamBold,12,K.rose,2)
     L(f,"Mohon tunggu, sedang dalam proses perbaikan.",UDim2.new(0,52,0,28),UDim2.new(1,-60,0,14),Enum.Font.Gotham,9,Color3.fromRGB(255,130,145),2)
 
+    -- progress bar static 93%
     local pBg=F(f,K.b0,UDim2.new(0,52,0,46),UDim2.new(1,-62,0,5),2) crn(pBg,3) SK(pBg,K.b4,1)
-    local pFill=F(pBg,K.rose,UDim2.new(0,0,0,0),UDim2.new(0.75,0,1,0),3) crn(pFill,3) GR(pFill,Color3.fromRGB(255,100,120),K.rose,0)
-    local pct=L(f,"75%",UDim2.new(1,-36,0,42),UDim2.new(0,30,0,12),Enum.Font.GothamBold,8,K.rose,2,Enum.TextXAlignment.Center)
+    local pFill=F(pBg,K.rose,UDim2.new(0,0,0,0),UDim2.new(0.93,0,1,0),3) crn(pFill,3) GR(pFill,Color3.fromRGB(255,100,120),K.rose,0)
+    local pct=L(f,"93%",UDim2.new(1,-36,0,42),UDim2.new(0,30,0,12),Enum.Font.GothamBold,8,K.rose,2,Enum.TextXAlignment.Center)
     return f end
 
 -- BUILD TABS
@@ -391,7 +392,7 @@ mkToggle(tp,"Auto Accept",3,false)
 mkToggle(tp,"Freeze Trade",4,false)
 mkToggle(tp,"Visual Brainrot",5,false)
 
--- Banner setelah semua toggle (LayoutOrder = 6)
+-- Banner setelah semua toggle (LayoutOrder = 6) dengan progress 93%
 mkTradeBanner(tp,6)
 
 mkSec(tp,"Timing",7)
