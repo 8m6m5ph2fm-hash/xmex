@@ -300,74 +300,62 @@ local function mkSCard(par,title,icon,vc,order)
     return vL,bF end
 
 -- ══════════════════════════════════════
---  MAINTENANCE BANNER
---  Ditaro di bawah fitur di setiap tab
+--  MAINTENANCE BANNER (hanya untuk Trade)
 -- ══════════════════════════════════════
-local function mkMaintBanner(par,lo)
-    local f=F(par,K.b2,UDim2.new(0,0,0,0),UDim2.new(1,0,0,88),1)
+local function mkTradeBanner(par,lo)
+    local f=F(par,K.b2,UDim2.new(0,0,0,0),UDim2.new(1,0,0,72),1)
     f.LayoutOrder=lo crn(f,14) SK(f,K.rose,1.8,.28) GR(f,K.b3,K.b1,152)
 
-    -- red top line
     local topLine=F(f,K.rose,UDim2.new(0,0,0,0),UDim2.new(1,0,0,3),2) crn(topLine,14) GR(topLine,Color3.fromRGB(255,90,110),K.rose,0)
-
-    -- left red accent
     local acc=F(f,K.rose,UDim2.new(0,0,0.1,0),UDim2.new(0,3,0.8,0),2) crn(acc,2) acc.BackgroundTransparency=0.25
+    local icoF=F(f,K.rose,UDim2.new(0,12,0.5,-16),UDim2.new(0,32,0,32),2) crn(icoF,50) icoF.BackgroundTransparency=0.72
+    L(icoF,"⚠️",UDim2.new(0,0,0,0),UDim2.new(1,0,1,0),Enum.Font.GothamBold,14,K.t1,3,Enum.TextXAlignment.Center)
+    L(f,"🔴  FITUR SEDANG DALAM UPDATE",UDim2.new(0,52,0,8),UDim2.new(1,-60,0,18),Enum.Font.GothamBold,12,K.rose,2)
+    L(f,"Mohon tunggu, sedang dalam proses perbaikan.",UDim2.new(0,52,0,28),UDim2.new(1,-60,0,14),Enum.Font.Gotham,9,Color3.fromRGB(255,130,145),2)
 
-    -- icon
-    local icoF=F(f,K.rose,UDim2.new(0,12,0.5,-18),UDim2.new(0,36,0,36),2) crn(icoF,50) icoF.BackgroundTransparency=0.72
-    L(icoF,"⚠️",UDim2.new(0,0,0,0),UDim2.new(1,0,1,0),Enum.Font.GothamBold,16,K.t1,3,Enum.TextXAlignment.Center)
-
-    -- teks merah
-    L(f,"🔴  FITUR SEDANG DALAM UPDATE",
-        UDim2.new(0,56,0,12),UDim2.new(1,-64,0,20),
-        Enum.Font.GothamBold,13,K.rose,2)
-    local subTxt=L(f,"Mohon tunggu, sedang dalam proses\nperbaikan & peningkatan sistem.",
-        UDim2.new(0,56,0,34),UDim2.new(1,-64,0,36),
-        Enum.Font.Gotham,10,Color3.fromRGB(255,130,145),2)
-    subTxt.TextWrapped=true
-
-    -- progress bar animasi
-    local pBg=F(f,K.b0,UDim2.new(0,56,0,72),UDim2.new(1,-68,0,5),2) crn(pBg,3) SK(pBg,K.b4,1)
-    local pFill=F(pBg,K.rose,UDim2.new(0,0,0,0),UDim2.new(0,0,1,0),3) crn(pFill,3) GR(pFill,Color3.fromRGB(255,100,120),K.rose,0)
-
-    -- animasi progress
-    local pct=30 local dir=1
-    RunService.Heartbeat:Connect(function(dt)
-        if not f.Parent then return end
-        pct=pct+(dir*dt*15)
-        if pct>=85 then dir=-1 end
-        if pct<=15 then dir=1 end
-        pFill.Size=UDim2.new(pct/100,0,1,0)
-    end)
+    local pBg=F(f,K.b0,UDim2.new(0,52,0,46),UDim2.new(1,-62,0,5),2) crn(pBg,3) SK(pBg,K.b4,1)
+    local pFill=F(pBg,K.rose,UDim2.new(0,0,0,0),UDim2.new(0.75,0,1,0),3) crn(pFill,3) GR(pFill,Color3.fromRGB(255,100,120),K.rose,0)
+    local pct=L(f,"75%",UDim2.new(1,-36,0,42),UDim2.new(0,30,0,12),Enum.Font.GothamBold,8,K.rose,2,Enum.TextXAlignment.Center)
     return f end
 
 -- BUILD TABS
+-- ========== TRADE TAB (banner setelah Visual Brainrot) ==========
 local tp=mkTab("Trade","💎",1)
-mkSec(tp,"Trade Features",1)
-mkToggle(tp,"Visual Trade",2,true) mkToggle(tp,"Auto Accept",3,false)
-mkToggle(tp,"Freeze Trade",4,false) mkToggle(tp,"Visual Brainrot",5,false)
-mkSec(tp,"Timing",6)
-mkSlider(tp,"Accept Delay (ms)",0,500,35,7) mkSlider(tp,"Visual Intensity",0,100,72,8)
-mkSec(tp,"Advanced",9)
-mkToggle(tp,"Anti Decline",10,true) mkToggle(tp,"Trade Logger",11,false,"UPDATING") mkToggle(tp,"Instant Confirm",12,false,"UPDATING")
--- banner merah di bawah trade
-mkMaintBanner(tp,99)
 
+mkSec(tp,"Trade Features",1)
+mkToggle(tp,"Visual Trade",2,true)
+mkToggle(tp,"Auto Accept",3,false)
+mkToggle(tp,"Freeze Trade",4,false)
+mkToggle(tp,"Visual Brainrot",5,false)
+
+-- Banner setelah semua toggle (LayoutOrder = 6)
+mkTradeBanner(tp,6)
+
+mkSec(tp,"Timing",7)
+mkSlider(tp,"Accept Delay (ms)",0,500,35,8)
+mkSlider(tp,"Visual Intensity",0,100,72,9)
+
+mkSec(tp,"Advanced",10)
+mkToggle(tp,"Anti Decline",11,true)
+mkToggle(tp,"Trade Logger",12,false,"UPDATING")
+mkToggle(tp,"Instant Confirm",13,false,"UPDATING")
+
+-- ========== BRAIN TAB (tanpa banner) ==========
 local bp=mkTab("Brain","🧠",2)
 mkSec(bp,"Engine",1)
 mkToggle(bp,"Enable Brainrot",2,false) mkToggle(bp,"Rainbow Text",3,false) mkToggle(bp,"Spam Mode",4,false,"UPDATING")
 mkSec(bp,"Settings",5)
 mkSlider(bp,"Speed",1,10,5,6) mkSlider(bp,"Size",10,100,50,7)
-mkMaintBanner(bp,99)
 
+-- ========== STEAL TAB (tanpa banner) ==========
 local stp=mkTab("Steal","🕵️",3)
 local csI1,csT1=mkCS(stp,"COMING SOON","Under development\ndiscord.gg/marky",1)
-mkMaintBanner(stp,2)
 
+-- ========== LIST TAB (tanpa banner) ==========
 local tlp=mkTab("List","📋",4)
 local csI2,csT2=mkCS(tlp,"COMING SOON","Next patch\ndiscord.gg/marky",1)
-mkMaintBanner(tlp,2)
 
+-- ========== PLAYER TAB (tanpa banner) ==========
 local pp=mkTab("Player","👤",5)
 mkSec(pp,"Visual Cosmetics",1)
 local infoF=F(pp,K.b2,UDim2.new(0,0,0,0),UDim2.new(1,0,0,34),1) infoF.LayoutOrder=2 crn(infoF,10) SK(infoF,K.g3,1,.58) GR(infoF,K.b3,K.b1,152)
@@ -498,18 +486,16 @@ mBtn.MouseButton1Click:Connect(function() local u=mInput.Text:gsub("%s+","") tas
 rBtn.MouseButton1Click:Connect(function() task.spawn(resetMorph) end)
 mkSec(pp,"Coming Soon",9)
 local csI3,csT3=mkCS(pp,"UPDATING . . .","More cosmetics coming",10)
-mkMaintBanner(pp,98)
 
--- STATS
+-- ========== STATS TAB (tanpa banner) ==========
 local sp=mkTab("Stats","📊",6)
 mkSec(sp,"Performance",1)
 local fpsVal,fpsBar=mkSCard(sp,"FRAMES PER SECOND","⚡",K.mint,2)
 local pingVal,pingBar=mkSCard(sp,"NETWORK PING","📶",K.sky,3)
 mkSec(sp,"Optimizers",4)
 mkToggle(sp,"FPS Unlocker",5,true) mkToggle(sp,"Render Optimizer",6,false,"UPDATING") mkToggle(sp,"Low Latency",7,false,"UPDATING") mkToggle(sp,"Memory Cleaner",8,false)
-mkMaintBanner(sp,99)
 
--- THEMES
+-- ========== MORE TAB (tanpa banner) ==========
 local misc=mkTab("More","⚙️",7)
 mkSec(misc,"Theme Customizer",1)
 local tNames={"Gold","Crimson","Sapphire","Emerald","Violet","Rose"}
